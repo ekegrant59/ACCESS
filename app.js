@@ -426,7 +426,7 @@ app.get('/access/:id', async (req,res)=>{
     const id = req.params.id
 
     try{
-        const user = await userSchema.findOne({_id: id})
+        const user = await profileSchema.findOne({_id: id})
 
         return res.send(user)
     } catch{

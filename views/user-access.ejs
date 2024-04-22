@@ -92,7 +92,12 @@
       fetch(`/access/${decodeText}`, {
       method:'GET'
    })
-   .then(response => response.json())
+   .then(response => {
+    if (!response.ok) {
+      console.log(`Error ${response.json().message}`);
+    }
+    return response.json();
+  })
    .then(data => console.log(data.firstname, data.lastname))
    .catch(err =>{
       console.log(err)
