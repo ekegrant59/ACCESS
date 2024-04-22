@@ -78,13 +78,13 @@
          alert(`code scanned: ${decodeText}`)
          getProfile(decodeText);
          console.log(decodeResult)
+         htmlscanner.pause()
       }
 
       function onScanFailure(error) {
       // handle scan failure, usually better to ignore and keep scanning.
       // for example:
          console.warn(`Code scan error = ${error}`);
-         htmlscanner.pause()
       }
    
       let htmlscanner = new Html5QrcodeScanner(
