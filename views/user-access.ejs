@@ -55,8 +55,16 @@
  </aside>
  
  <div class="p-4 sm:ml-64">
-    <p>Grant Access</p>
-    <div id="reader" width="600px"></div>
+    <p class="font-bold text-2xl my-4">Grant Access</p>
+    <div class="flex justify-center">
+      <div class="max-w-md w-full">
+         <div class="section border border-white rounded p-8">
+            <h1 class="text-center font-semibold text-xl pb-4">Scan QR Codes</h1>
+            <div id="my-qr-reader" class="p-5 border border-[#b2b2b2] rounded-lg flex flex-col justify-center items-center">
+            </div>
+         </div>
+      </div>
+  </div>
  </div>
  
 </body>
@@ -64,18 +72,37 @@
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
 <script>
-   // check compatibility
-if (!("BarcodeDetector" in globalThis)) {
-  console.log("Barcode Detector is not supported by this browser.");
-} else {
-  console.log("Barcode Detector supported!");
+   
+      // If found you qr code
+      function onScanSuccess(decodeText, decodeResult) {
+         alert(`code scanned: ${decodeText}`)
+         getProfile(decodeText);
+         console.log(decodeResult)
+      }
 
-  // create new detector
-  const barcodeDetector = new BarcodeDetector({
-    formats: ["code_39", "codabar", "ean_13"],
-  });
-}
+      function onScanFailure(error) {
+      // handle scan failure, usually better to ignore and keep scanning.
+      // for example:
+         console.warn(`Code scan error = ${error}`);
+         htmlscanner.pause()
+      }
+   
+      let htmlscanner = new Html5QrcodeScanner(
+         "my-qr-reader",
+         { fps: 10, qrbos: 250 }
+      );
+      htmlscanner.render(onScanSuccess, onScanFailure);
 
+
+   function getProfile(decodeText){
+      fetch(`/access/${decodeText}`, {
+      method:'GET'
+   }).then(res =>{
+      console.log(res.json)
+   }).catch(err =>{
+      console.log(err)
+   })
+   }
 </script>
 
 </html>

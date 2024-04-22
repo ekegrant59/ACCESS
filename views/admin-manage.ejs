@@ -71,25 +71,25 @@
            <table class="w-full">
             <thead>
                <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Supervisor</th>
-                  <th>Location</th>
-                  <th>View</th> 
-                  <th>Delete</th>
+                  <th class="text-nowrap px-3">First Name</th>
+                  <th class="text-nowrap px-3">Last Name</th>
+                  <th class="text-nowrap px-3">Supervisor</th>
+                  <th class="text-nowrap px-3">Location</th>
+                  <th class="text-nowrap px-3">View</th> 
+                  <th class="text-nowrap px-3">Delete</th>
                </tr>
             </thead>
               <tbody>
                  <% profiles.reverse().forEach(profile =>{ %>
                     <tr class="bg-gray-200 border-b border-black text-center">
-                       <td class="text-xl py-2"><%= profile.firstname %></td>
-                       <td class="text-xl py-2"><%= profile.lastname %></td>
-                       <td class="text-xl py-2"><%= profile.supervisor %></td>
-                       <td class="text-xl py-2"><%= profile.location %></td>
-                       <td class="text-xl py-2">
+                       <td class="text-xl py-2 text-nowrap"><%= profile.firstname %></td>
+                       <td class="text-xl py-2 text-nowrap"><%= profile.lastname %></td>
+                       <td class="text-xl py-2 text-nowrap"><%= profile.supervisor %></td>
+                       <td class="text-xl py-2 text-nowrap"><%= profile.location %></td>
+                       <td class="text-xl py-2 text-nowrap">
                         <a href="/admin/profile/view/<%= profile.id %>" class="text-xl border rounded-md hover:bg-blue-300 px-2 py-1" ><i class="ri-eye-fill"></i></a>
                        </td>
-                        <td class="py-2">
+                        <td class="py-2 text-nowrap">
                           <form action="/profile/delete" method="post">
                              <input type="text" name="id" value="<%= profile.id %>" class="hidden" readonly>
                           <button type="submit" class="text-xl border rounded-md hover:bg-blue-300 px-2 py-1"><i class="ri-delete-bin-6-line"></i></button>

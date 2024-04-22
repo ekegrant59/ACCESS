@@ -422,6 +422,18 @@ function protectRoute(req, res, next){
     }
 }
 
+app.get('/access/:id', async (req,res)=>{
+    const id = req.params.id
+
+    try{
+        const user = await userSchema.findOne({_id: id})
+
+        return res.status(200).json(user);
+    } catch{
+        return res.status(404).json({ message: 'User not found' });
+    }
+})
+
 const port = process.env.PORT || 5000
 
 app.listen(port, ()=>{
