@@ -428,7 +428,7 @@ app.get('/access/:id', async (req,res)=>{
     try{
         const user = await userSchema.findOne({_id: id})
 
-        return res.status(200).json(user);
+        return res.send(user)
     } catch{
         return res.status(404).json({ message: 'User not found' });
     }
