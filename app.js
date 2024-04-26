@@ -12,6 +12,7 @@ const secretkey = process.env.SECRETKEY
 const adminSchema = require('./schema/adminSchema')
 const userSchema = require('./schema/userSchema')
 const profileSchema = require('./schema/profileSchema')
+const accessSchema = require('./schema/accessSchema')
 
 const mongodb = process.env.MONGODB
 mongoose.connect(mongodb)
@@ -186,7 +187,8 @@ app.get('/admin/manage',protectAdminRoute, async function(req,res){
 app.get('/admin/logs',protectAdminRoute, async function(req,res){ 
     const auser = req.user.user.username
     const theuser = await adminSchema.findOne({username: auser})
-    res.render('admin-logs', {theuser: theuser})
+    const accesss = await accessSchema.find().populate('profile')
+    res.render('admin-logs', {theuser: theuser, accesss: accesss})
 })
 
 app.get('/admin/users',protectAdminRoute, async function(req,res){ 
@@ -404,7 +406,8 @@ app.get('/access',protectRoute, async function(req,res){
 app.get('/logs',protectRoute, async function(req,res){ 
     const auser = req.user.user.username
     const theuser = await adminSchema.findOne({username: auser})
-    res.render('user-logs', {theuser: theuser})
+    const accesss = await accessSchema.find().populate('profile')
+    res.render('user-logs', {theuser: theuser, accesss: accesss})
 })
 
 function protectRoute(req, res, next){
@@ -433,6 +436,55 @@ app.get('/access/:id', async (req,res)=>{
         return res.status(404).json({ message: 'User not found' });
     }
 })
+
+app.post('/access/grant', async (req,res)=>{
+    try{
+        const {id, logged, firstname, lastname} = req.body
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleString();
+
+        const access = new accessSchema({
+            profile: id,
+            status: 'Approved',
+            date: formattedDate,
+            logged: logged
+        })
+
+        access.save()
+
+        req.flash('success', `Access Granted for ${firstname} ${lastname}`)
+        res.redirect("/access")
+    } catch(err){
+        console.log(err)
+        req.flash('danger', "An Error Occured, Please Try Again")
+        res.redirect("/access")
+    }
+})
+
+app.post('/access/deny', async (req,res)=>{
+    try{
+        const {id, logged, firstname, lastname} = req.body
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleString();
+
+        const access = new accessSchema({
+            profile: id,
+            status: 'Denied',
+            date: formattedDate,
+            logged: logged
+        })
+
+        access.save()
+
+        req.flash('danger', `Access Denied for ${firstname} ${lastname}`)
+        res.redirect("/access")
+    } catch(err){
+        console.log(err)
+        req.flash('danger', "An Error Occured, Please Try Again")
+        res.redirect("/access")
+    }
+})
+
 
 const port = process.env.PORT || 5000
 
