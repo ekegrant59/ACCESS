@@ -71,6 +71,7 @@
                   <th class="text-nowrap px-3 py-2">Last Name</th>
                   <th class="text-nowrap px-3 py-2">Supervisor</th>
                   <th class="text-nowrap px-3 py-2">Location</th>
+                  <th class="text-nowrap px-3 py-2">Card Number</th>
                   <th class="text-nowrap px-3 py-2">Status</th> 
                   <th class="text-nowrap px-3 py-2">Date/Time</th>
                   <th class="text-nowrap px-3 py-2">Logged By</th>
@@ -83,6 +84,7 @@
                        <td class="text-xl py-2 text-nowrap"><%= access.profile.lastname %></td>
                        <td class="text-xl py-2 text-nowrap"><%= access.profile.supervisor %></td>
                        <td class="text-xl py-2 text-nowrap"><%= access.profile.location %></td>
+                       <td class="text-xl py-2 text-nowrap"><%= access.profile.card %></td>
                        <td class="text-xl py-2 text-nowrap">
                         <% if (access.status == 'Approved') { %>
                          <span class="text-green-700">

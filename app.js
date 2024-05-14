@@ -439,7 +439,7 @@ app.get('/access/:id', async (req,res)=>{
 
 app.post('/access/grant', async (req,res)=>{
     try{
-        const {id, logged, firstname, lastname} = req.body
+        const {id, logged, firstname, lastname,card} = req.body
         const currentDate = new Date();
         const formattedDate = currentDate.toLocaleString();
 
@@ -447,7 +447,8 @@ app.post('/access/grant', async (req,res)=>{
             profile: id,
             status: 'Approved',
             date: formattedDate,
-            logged: logged
+            logged: logged,
+            card: card
         })
 
         access.save()
@@ -471,7 +472,8 @@ app.post('/access/deny', async (req,res)=>{
             profile: id,
             status: 'Denied',
             date: formattedDate,
-            logged: logged
+            logged: logged,
+            card: 'Denied'
         })
 
         access.save()
