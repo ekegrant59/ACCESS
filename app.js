@@ -453,7 +453,7 @@ app.post('/access/grant', async (req,res)=>{
 
         access.save()
 
-        req.flash('success', `Access Granted for ${firstname} ${lastname}`)
+        req.flash('success', `Access Authorized for ${firstname} ${lastname}`)
         res.redirect("/access")
     } catch(err){
         console.log(err)
